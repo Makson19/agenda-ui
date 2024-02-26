@@ -1,7 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { AppRoutes } from './routes'
 import { AppThemeProvider } from './contenxts/ThemeContext'
-import Sidebar from './components/Sidebar/Sidebar'
 import { DrawerProvider } from './contenxts/DrawerContext'
 
 function App() {
@@ -9,9 +8,7 @@ function App() {
     <AppThemeProvider>
       <DrawerProvider>
         <BrowserRouter>
-          <Sidebar>
-            <AppRoutes />
-          </Sidebar>
+          <AppRoutes />
         </BrowserRouter>
       </DrawerProvider>
     </AppThemeProvider>

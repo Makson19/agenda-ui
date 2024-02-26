@@ -3,12 +3,14 @@ import { Box } from '@mui/system'
 import { Divider, Drawer, Icon, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Theme, useMediaQuery, useTheme, Typography } from '@mui/material'
 import { CSSObject, styled } from '@mui/material/styles'
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { useDrawerContext } from '../../contenxts/DrawerContext'
 import { useAppThemeContext } from '../../contenxts/ThemeContext'
+import { signOutRequest } from '../../store/auth/actions'
 
-interface ISidebarProps {
-  children: React.ReactNode
-}
+// interface ISidebarProps {
+//   children: React.ReactNode
+// }
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: theme.spacing(28),
@@ -82,9 +84,10 @@ const MenuItemLink: React.FC<IMenuItemLinkProps> = ({ to, label, icon, onClick }
   )
 }
 
-const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
+const Sidebar = () => {
   const theme = useTheme()
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
+  const dispatch = useDispatch()
 
   const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext()
   const { themeName, toggleTheme } = useAppThemeContext()
@@ -124,7 +127,7 @@ const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
                 <MenuItemLink
                   label='Dashboard'
                   icon='bar_chart'
-                  to='/'
+                  to='/inicio'
                   onClick={undefined}
                 />
               </List>
@@ -134,9 +137,16 @@ const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
               <List component='nav'>
                 <ListItemButton onClick={toggleTheme}>
                   <ListItemIcon>
-                    <Icon>{themeName === 'light' ? 'dark_mode' : 'light_mode'}</Icon>
+                    <Icon>{themeName === 'light' ? 'light_mode' : 'dark_mode'}</Icon>
                   </ListItemIcon>
                   <ListItemText primary='Alternar tema' />
+                </ListItemButton>
+
+                <ListItemButton onClick={() => dispatch(signOutRequest())}>
+                  <ListItemIcon>
+                    <Icon>logout</Icon>
+                  </ListItemIcon>
+                  <ListItemText primary='Sair' />
                 </ListItemButton>
               </List>
             </Box>
@@ -177,9 +187,16 @@ const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
               <List component='nav'>
                 <ListItemButton onClick={toggleTheme}>
                   <ListItemIcon>
-                    <Icon>{themeName === 'light' ? 'dark_mode' : 'light_mode'}</Icon>
+                    <Icon>{themeName === 'light' ? 'light_mode' : 'dark_mode'}</Icon>
                   </ListItemIcon>
                   <ListItemText primary='Alternar tema' />
+                </ListItemButton>
+
+                <ListItemButton onClick={() => dispatch(signOutRequest())}>
+                  <ListItemIcon>
+                    <Icon>logout</Icon>
+                  </ListItemIcon>
+                  <ListItemText primary='Sair' />
                 </ListItemButton>
               </List>
             </Box>
@@ -188,9 +205,9 @@ const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
         </Drawer >
       )}
 
-      <Box height='100vh' marginLeft={smDown ? 0 : isDrawerOpen ? theme.spacing(28) : `calc(${theme.spacing(8)} + 1px)`}>
+      {/* <Box height='100vh' marginLeft={smDown ? 0 : isDrawerOpen ? theme.spacing(28) : `calc(${theme.spacing(8)} + 1px)`}>
         {children}
-      </Box>
+      </Box> */}
     </>
   )
 }
