@@ -1,18 +1,20 @@
 import { Box, Button, Card, CardContent, Grid, Icon, Typography } from '@mui/material'
 import { Field, Form } from 'react-final-form'
+import { useDispatch } from 'react-redux'
 import Input from '../Input/Input'
+import { signUpRequest } from '../../store/auth/actions'
 
 interface IValues {
   name: string
-  birthday?: Date
+  birthday?: string
   phone?: string
   email: string
   password: string
   confirm_password: string
 }
 
-
 const SignupForm = () => {
+  const dispatch = useDispatch()
 
   const validate = (values: IValues) => {
     const errors: any = {}
@@ -32,7 +34,7 @@ const SignupForm = () => {
       errors.password = 'Campo obrigatório'
     }
 
-    if (values?.password.length < 6) {
+    if (values?.password?.length < 6) {
       errors.password = 'A senha deve ter no mínimo 6 caracteres.'
     }
 
@@ -48,7 +50,14 @@ const SignupForm = () => {
   }
 
   const onSumitForm = (values: IValues) => {
-    console.log('values', values) // eslint-disable-line
+    const payload = {
+      name: values?.name,
+      email: values?.email,
+      password: values?.password,
+      birthday: values?.birthday,
+      phone: values?.phone
+    }
+    dispatch(signUpRequest(payload))
   }
 
   return (
@@ -136,6 +145,16 @@ const SignupForm = () => {
                           sx={{ fontSize: '18px', width: '100%' }}
                         >
                           Cadastrar
+                        </Button>
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <Button
+                          variant='outlined'
+                          href='/login'
+                          sx={{ fontSize: '18px', width: '100%' }}
+                        >
+                          Voltar para login
                         </Button>
                       </Grid>
                     </Grid>

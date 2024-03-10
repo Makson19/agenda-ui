@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { signInFailure, signInResquest, signInSuccess, signOutRequest } from './actions'
+import { signInFailure, signInResquest, signInSuccess, signOutRequest, signUpFailure, signUpRequest, signUpSuccess } from './actions'
 import { AnyAction } from 'redux-saga'
 
 interface IUser {
@@ -51,6 +51,28 @@ const authReducer = createReducer(initialState, (builder) => {
       }
     }))
     .addCase(signInFailure, (state, action: AnyAction) => ({
+      ...state,
+      isFetching: false,
+      isLoading: false,
+      isError: true,
+      messageError: action.payload
+    }))
+    .addCase(signUpRequest, (state) => ({
+      ...state,
+      isFetching: true,
+      isLoading: true,
+      isError: false,
+      messageError: undefined,
+      isLogged: false
+    }))
+    .addCase(signUpSuccess, (state) => ({
+      ...state,
+      isFetching: false,
+      isLoading: false,
+      isError: false,
+      messageError: undefined
+    }))
+    .addCase(signUpFailure, (state, action) => ({
       ...state,
       isFetching: false,
       isLoading: false,
